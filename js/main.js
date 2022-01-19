@@ -5,20 +5,18 @@ var dateF = "sol=1000"
 var cameraF = ""
 var pageF = "&page="
 var key = "&api_key=LOYVbItd9baLQ2ROFdMaZKF9ZWdFpEXazdCzM62z"
-
+sessionStorage.setItem("filter"," 0")
 function runPage() {
     for (let i = 0; i < 5; i++) {
         if ($(".pageNumber")[i].innerHTML == page.toString()) {
             $(".pageNumber")[i].className = "pageNumber activePage"
         }
     }
-    console.log(link + roverF + photosF + "?" + dateF + cameraF + pageF + page + key)
     //"https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2012-08-06&page=1&api_key=DEMO_KEY" 
     fetch(link + roverF + photosF + "?" + dateF + cameraF + pageF + page + key)
         .then((resp) => resp.json())
         .then(function(data) {
             if (data.photos !== undefined) {
-                console.log(data.photos)
                 for (let i = 0; i < data.photos.length; i++) {
                     // let year = data[i].date.slice(0,4)
                     // let month = data[i].date.slice(5,7)
@@ -42,7 +40,6 @@ function runPage() {
                 $("#main").append(likeImg)
                 $("#main").append(likesText)
             }
-            console.log("hello")
         })
         .catch((error) => {
             console.log(error)
@@ -148,7 +145,6 @@ function like(button) {
 }
 
 function closeScreen() {
-    console.log("hello")
     id = []
     active = ""
     $("#imageScreen").empty()
@@ -264,7 +260,6 @@ function openFilter() {
     } else if ($("#filterButtonImg").attr("src") == "assets/CloseFilter.png") {
         $("#filterButtonImg").attr("src", "assets/OpenFilter.png")
         $(".filters").addClass("filterAnimReverse")
-        console.log("huej")
     }
 }
 
@@ -274,7 +269,7 @@ $(".filters").on("animationend", () => {
         $(".filters").removeClass("filterAnim")
     }
 })
-
-function pageSearch() {
-    let e = window.prompt("Page")
-}
+$("#filterButtonImg").on("click",()=>{
+    $("#fImg").css("visibility","hidden")
+    sessionStorage.setItem("filter","1")
+})
